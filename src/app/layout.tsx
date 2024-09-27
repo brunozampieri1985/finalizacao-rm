@@ -1,6 +1,11 @@
+
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider } from "@/providers/theme";
+import Navbar from "@/components/shared/navbar";
+import { cn } from "@/lib/utils";
+import { MarmoreProvider } from "@/providers/marmore";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,8 +20,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="pt-BR">
+      <body className={cn(inter.className, "md:px-48")}>
+        <MarmoreProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="light"
+            disableTransitionOnChange
+          >
+            <Navbar />
+            {children}
+          </ThemeProvider>
+        </MarmoreProvider>
+      </body>
     </html>
   );
 }
