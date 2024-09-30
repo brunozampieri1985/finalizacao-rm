@@ -1,6 +1,5 @@
 "use client";
 
-
 import { Part } from "@/lib/features/calculo-marmore";
 import * as React from "react";
 
@@ -22,6 +21,7 @@ type MarmoreContextType = {
   items: Product[];
   handleAddItem: (product: Omit<Product, "id">) => void;
   handleRemoveItem: (id: number) => void;
+  handleClearProject: () => void;
   total: {
     price: number;
     cost: number;
@@ -51,9 +51,13 @@ export function MarmoreProvider({ children }: MarmoreProviderProps) {
     setItems(filter);
   }
 
+  function handleClearProject() {
+    setItems([]);
+  }
+
   return (
     <MarmoreContext.Provider
-      value={{ items, handleAddItem, handleRemoveItem, total }}
+      value={{ items, handleAddItem, handleRemoveItem, handleClearProject, total }}
     >
       {children}
     </MarmoreContext.Provider>

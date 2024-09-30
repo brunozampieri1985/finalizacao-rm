@@ -78,7 +78,14 @@ export function RodabaseForm() {
           <DialogTitle>Rodabase</DialogTitle>
           <DialogDescription>Adicionar rodabase ao projeto.</DialogDescription>
         </DialogHeader>
-        <form className="space-y-8 p-8 w-3/4">
+        <form
+          className="space-y-8 p-8 w-3/4"
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleSave();
+            }
+          }}
+        >
           <div>
             <label>Material</label>
 

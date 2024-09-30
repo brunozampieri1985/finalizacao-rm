@@ -1,11 +1,5 @@
-
-
+import { AppBar } from "@/components/shared/appbar";
 
 export default function Home() {
-
-  return (
-    <main>
-      Teste
-    </main>
-  );
+  return <>Página Pricipal</>;
 }

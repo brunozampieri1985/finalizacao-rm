@@ -1,5 +1,5 @@
 import { Options } from "../options";
-import { getArea, roundMoney } from "../utils";
+import { getArea, roundMoney, toMoneyString } from "../utils";
 
 export type StockType = {
   id: number;
@@ -89,14 +89,20 @@ export const PRODUCTS: Omit<StockType, "price">[] = [
 export function getMaterialOptions() {
   const options = [];
   for (const product of PRODUCTS) {
-    options.push(product.material);
+    options.push(
+      `${product.material} | ${toMoneyString(product.cost * Options.Markup)}/m²`
+    );
   }
   return options;
 }
 
-export class Stock {
-  static getByMaterial(input: string) {
-    const stock = PRODUCTS.find((product) => product.material === input);
+export const Stock = {
+  getByMaterial(input: string) {
+    const [material, ..._] = input.split("|");
+    console.log(material);
+    const stock = PRODUCTS.find(
+      (product) => product.material === material.trimEnd()
+    );
     if (stock) {
       return {
         ...stock,
@@ -104,8 +110,8 @@ export class Stock {
       };
     }
     return null;
-  }
-}
+  },
+};
 
 type BaseInput = {
   material: string;

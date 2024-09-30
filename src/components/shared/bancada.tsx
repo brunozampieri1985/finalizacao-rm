@@ -88,7 +88,14 @@ export function BancadaForm() {
           <DialogTitle>Bancada</DialogTitle>
           <DialogDescription>Adicionar Bancada ao projeto.</DialogDescription>
         </DialogHeader>
-        <form className="space-y-8 p-8 w-full">
+        <form
+          className="space-y-8 p-8 w-full"
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleSave();
+            }
+          }}
+        >
           <div>
             <label>Material</label>
 
