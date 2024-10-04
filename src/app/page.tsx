@@ -1,6 +1,6 @@
 export default function Home() {
   return (
-    <div className="flex flex-col gap-4 mt-4">
+    <div className="flex flex-col gap-4 mt-4 p-4">
       <p>
         Na R&M Planejados, entendemos a importância de fornecer aos nossos
         colaboradores as ferramentas e informações necessárias para a execução

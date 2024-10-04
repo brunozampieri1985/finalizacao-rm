@@ -11,7 +11,8 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "R&M Planejados - Central de Projetos",
-  description: "Central de Projetos para rápida consulta e utilização dos funcionários da R&M Planejados.",
+  description:
+    "Central de Projetos para rápida consulta e utilização dos funcionários da R&M Planejados.",
 };
 
 export default function RootLayout({
