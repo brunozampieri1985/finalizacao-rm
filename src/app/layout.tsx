@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Roboto_Condensed } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/providers/theme";
 import { cn } from "@/lib/utils";
@@ -7,7 +7,7 @@ import { MarmoreProvider } from "@/providers/marmore";
 import { AppBar } from "@/components/shared/appbar";
 import { Separator } from "@/components/ui/separator";
 
-const inter = Inter({ subsets: ["latin"] });
+const robRoboto_Condensed = Roboto_Condensed({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "R&M Planejados - Central de Projetos",
@@ -22,7 +22,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body className={cn(inter.className, " p-2 md:p-0 md:px-48")}>
+      <body
+        className={cn(robRoboto_Condensed.className, " p-2 md:p-0 md:px-48")}
+      >
         <MarmoreProvider>
           <ThemeProvider
             attribute="class"
