@@ -21,9 +21,12 @@ import {
 } from "@/components/ui/dialog";
 import { useMarmore } from "@/providers/marmore";
 import { Bancada, getMaterialOptions } from "@/lib/features/calculo-marmore";
+import { useToast } from "@/hooks/use-toast";
+import { ToastAction } from "../ui/toast";
 
 export function BancadaForm() {
   const { handleAddItem } = useMarmore();
+  const { toast } = useToast()
   const [open, setOpen] = React.useState(false);
   const [data, setData] = React.useState({
     width: 0,
@@ -36,6 +39,33 @@ export function BancadaForm() {
   const options = getMaterialOptions();
 
   function handleSave() {
+    if (data.height === 0) {
+      toast({
+        variant: "destructive",
+        title: "Atenção!",
+        description: "Favor informar a profundidade",
+        action: <ToastAction altText="OK">OK</ToastAction>,
+      });
+      return;
+    }
+    if (data.material === "") {
+      toast({
+        variant: "destructive",
+        title: "Atenção!",
+        description: "Favor informar o material",
+        action: <ToastAction altText="OK">OK</ToastAction>,
+      });
+      return;
+    }
+    if (data.width === 0) {
+      toast({
+        variant: "destructive",
+        title: "Atenção!",
+        description: "Favor informar a largura",
+        action: <ToastAction altText="OK">OK</ToastAction>,
+      });
+      return;
+    }
     const bancada = Bancada({
       height: data.height,
       width: data.width,

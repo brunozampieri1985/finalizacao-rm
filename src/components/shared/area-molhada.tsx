@@ -24,9 +24,12 @@ import {
   AreaMolhada,
   getMaterialOptions,
 } from "@/lib/features/calculo-marmore";
+import { useToast } from "@/hooks/use-toast";
+import { ToastAction } from "../ui/toast";
 
 export function AreaMolhadaForm() {
   const { handleAddItem } = useMarmore();
+  const { toast } = useToast();
   const [open, setOpen] = React.useState(false);
   const [data, setData] = React.useState({
     width: 0,
@@ -39,6 +42,41 @@ export function AreaMolhadaForm() {
   const options = getMaterialOptions();
 
   function handleSave() {
+    if (data.height === 0) {
+      toast({
+        variant: "destructive",
+        title: "Atenção!",
+        description: "Favor informar a profundidade",
+        action: <ToastAction altText="OK">OK</ToastAction>,
+      });
+      return;
+    }
+    if (data.material === "") {
+      toast({
+        variant: "destructive",
+        title: "Atenção!",
+        description: "Favor informar o material",
+        action: <ToastAction altText="OK">OK</ToastAction>,
+      });
+      return;
+    }
+    if (data.width === 0) {
+      toast({
+        variant: "destructive",
+        title: "Atenção!",
+        description: "Favor informar a largura",
+        action: <ToastAction altText="OK">OK</ToastAction>,
+      });
+      return;
+    }
+
+    if (data.frontao === 0) {
+      data.frontao = 80;
+    }
+    if (data.thickness === 0) {
+      data.thickness = 40;
+    }
+
     const am = AreaMolhada({
       height: data.height,
       width: data.width,
@@ -160,7 +198,7 @@ export function AreaMolhadaForm() {
                 placeholder="Digite a altura do frontão..."
               />
             </div>
-          </div>        
+          </div>
 
           <Button type="button" onClick={handleSave}>
             Adicionar

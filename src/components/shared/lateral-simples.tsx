@@ -12,7 +12,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useMarmore } from "@/providers/marmore";
-import { getMaterialOptions, LateralSimples } from "@/lib/features/calculo-marmore";
+import {
+  getMaterialOptions,
+  LateralSimples,
+} from "@/lib/features/calculo-marmore";
 import {
   Select,
   SelectContent,
@@ -21,9 +24,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { ToastAction } from "../ui/toast";
+import { useToast } from "@/hooks/use-toast";
 
 export function LateralSimplesForm() {
   const { handleAddItem } = useMarmore();
+  const { toast } = useToast();
   const [open, setOpen] = React.useState(false);
   const [data, setData] = React.useState({
     width: 0,
@@ -33,11 +39,38 @@ export function LateralSimplesForm() {
   });
 
   function handleSave() {
+    if (data.height === 0) {
+      toast({
+        variant: "destructive",
+        title: "Atenção!",
+        description: "Favor informar a altura",
+        action: <ToastAction altText="OK">OK</ToastAction>,
+      });
+      return;
+    }
+    if (data.material === "") {
+      toast({
+        variant: "destructive",
+        title: "Atenção!",
+        description: "Favor informar o material",
+        action: <ToastAction altText="OK">OK</ToastAction>,
+      });
+      return;
+    }
+    if (data.width === 0) {
+      toast({
+        variant: "destructive",
+        title: "Atenção!",
+        description: "Favor informar a largura",
+        action: <ToastAction altText="OK">OK</ToastAction>,
+      });
+      return;
+    }
     const frontao = LateralSimples({
       height: data.height,
       width: data.width,
       material: data.material,
-      thickness: data.thickness
+      thickness: data.thickness,
     });
 
     handleAddItem(frontao);
@@ -45,7 +78,7 @@ export function LateralSimplesForm() {
       width: 0,
       height: 0,
       material: "",
-      thickness: 0
+      thickness: 0,
     });
     setOpen(false);
   }
@@ -79,7 +112,9 @@ export function LateralSimplesForm() {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Lateral Simples</DialogTitle>
-          <DialogDescription>Adicionar lateral simples ao projeto.</DialogDescription>
+          <DialogDescription>
+            Adicionar lateral simples ao projeto.
+          </DialogDescription>
         </DialogHeader>
         <form
           className="space-y-8 p-8 w-3/4"

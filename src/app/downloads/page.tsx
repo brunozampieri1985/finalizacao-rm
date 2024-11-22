@@ -30,7 +30,7 @@ const DOWNLOADABLE_ITEMS: DownloadItemProps[] = [
   {
     src: "/Conferencia.xlsx",
     title: "PLANILHA DE CONFERÊNCIA DE VALORES",
-    description: "Módulos editáveis mais comuns já pronto pra ajuste e uso.",
+    description: "Planilha de comparação entre projeto inicial e final",
   },
   {
     src: "/RM ITALINEA - REGRAS E PADROES DE FINALIZACAO.pdf",

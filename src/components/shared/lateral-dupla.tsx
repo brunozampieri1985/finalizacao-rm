@@ -25,9 +25,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { ToastAction } from "../ui/toast";
+import { useToast } from "@/hooks/use-toast";
 
 export function LateralDuplaForm() {
   const { handleAddItem } = useMarmore();
+  const { toast } = useToast();
   const [open, setOpen] = React.useState(false);
   const [data, setData] = React.useState({
     width: 0,
@@ -37,6 +40,33 @@ export function LateralDuplaForm() {
   });
 
   function handleSave() {
+    if (data.height === 0) {
+      toast({
+        variant: "destructive",
+        title: "Atenção!",
+        description: "Favor informar a altura",
+        action: <ToastAction altText="OK">OK</ToastAction>,
+      });
+      return;
+    }
+    if (data.material === "") {
+      toast({
+        variant: "destructive",
+        title: "Atenção!",
+        description: "Favor informar o material",
+        action: <ToastAction altText="OK">OK</ToastAction>,
+      });
+      return;
+    }
+    if (data.width === 0) {
+      toast({
+        variant: "destructive",
+        title: "Atenção!",
+        description: "Favor informar a largura",
+        action: <ToastAction altText="OK">OK</ToastAction>,
+      });
+      return;
+    }
     const frontao = LateralDupla({
       height: data.height,
       width: data.width,

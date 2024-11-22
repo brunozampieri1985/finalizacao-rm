@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { MarmoreProvider } from "@/providers/marmore";
 import { AppBar } from "@/components/shared/appbar";
 import { Separator } from "@/components/ui/separator";
+import { Toaster } from "@/components/ui/toaster";
 
 const robRoboto_Condensed = Roboto_Condensed({ subsets: ["latin"] });
 
@@ -25,6 +26,7 @@ export default function RootLayout({
       <body
         className={cn(robRoboto_Condensed.className, " p-2 md:p-0 md:px-48")}
       >
+        <Toaster />
         <MarmoreProvider>
           <ThemeProvider
             attribute="class"
