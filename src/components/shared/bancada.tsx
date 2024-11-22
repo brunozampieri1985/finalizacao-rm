@@ -30,7 +30,6 @@ export function BancadaForm() {
     height: 0,
     thickness: 0,
     frontao: 0,
-    rodabase: 0,
     material: "",
   });
 
@@ -43,7 +42,6 @@ export function BancadaForm() {
       thickness: data.thickness,
       material: data.material,
       frontao: data.frontao,
-      rodabase: data.rodabase,
     });
 
     handleAddItem(bancada);
@@ -53,7 +51,6 @@ export function BancadaForm() {
       height: 0,
       thickness: 0,
       frontao: 0,
-      rodabase: 0,
       material: "",
     });
     setOpen(false);
@@ -158,17 +155,6 @@ export function BancadaForm() {
                 placeholder="Digite a altura do frontão..."
               />
             </div>
-          </div>
-
-          <div>
-            <label>Rodabase</label>
-            <Input
-              onChange={handleChange}
-              value={data.rodabase > 0 ? data.rodabase : undefined}
-              name="rodabase"
-              type="number"
-              placeholder="Digite a altura do rodabase..."
-            />
           </div>
 
           <Button type="button" onClick={handleSave}>

@@ -18,6 +18,8 @@ import { BancadaForm } from "@/components/shared/bancada";
 import { toMoneyString } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
+import { LateralSimplesForm } from "@/components/shared/lateral-simples";
+import { LateralDuplaForm } from "@/components/shared/lateral-dupla";
 
 export default function Home() {
   const [nome, setNome] = React.useState("");
@@ -33,7 +35,7 @@ export default function Home() {
     );
   }
 
-  function Items() {
+  function Items({ showDeleteButton }: { showDeleteButton: boolean }) {
     return (
       <Card>
         <CardHeader>
@@ -71,13 +73,15 @@ export default function Home() {
                       <span className="flex gap-4 items-center relative">
                         {showCost && <>{toMoneyString(item.cost)}|</>}{" "}
                         {toMoneyString(item.price)}
-                        <Button
-                          variant={"destructive"}
-                          className="w-4 h-4 text-xs absolute top-0 right-0 md:relative md:w-6 md:h-6"
-                          onClick={() => handleRemoveItem(item.id!)}
-                        >
-                          X
-                        </Button>
+                        {showDeleteButton && (
+                          <Button
+                            variant={"destructive"}
+                            className="w-4 h-4 text-xs absolute top-0 right-0 md:relative md:w-6 md:h-6"
+                            onClick={() => handleRemoveItem(item.id!)}
+                          >
+                            X
+                          </Button>
+                        )}
                       </span>
                     </div>
                   </Card>
@@ -96,7 +100,7 @@ export default function Home() {
       ReactDOMServer.renderToString(
         <p className="p-8">Nome do Cliente: {nome}</p>
       ) +
-      ReactDOMServer.renderToString(Items()) +
+      ReactDOMServer.renderToString(Items({ showDeleteButton: false })) +
       ReactDOMServer.renderToString(Total());
     html2pdf()
       .set()
@@ -122,12 +126,14 @@ export default function Home() {
           />
         </div>
       </div>
-      <Items />
+      <Items showDeleteButton />
       <div className="flex flex-wrap justify-center gap-4 p-4 bg-slate-100 items-center rounded-md">
         <AreaMolhadaForm />
         <BancadaForm />
         <FrontaoForm />
         <RodabaseForm />
+        <LateralSimplesForm />
+        <LateralDuplaForm />
         {items.length > 0 && (
           <Button variant={"destructive"} onClick={handleClearProject}>
             Limpar

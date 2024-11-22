@@ -151,7 +151,6 @@ type BancadaInput = BaseInput & {
 
 export function AreaMolhada(input: BancadaInput) {
   const frontao = input.frontao;
-  const rodabase = input.rodabase;
   const parts: Part[] = [];
   const guarnicaoVertical = createPart({
     description: "Guarnição Vertical",
@@ -213,16 +212,6 @@ export function AreaMolhada(input: BancadaInput) {
     parts.push(frontaoLateral);
     parts.push(frontao);
   }
-  if (input.rodabase) {
-    const rodabase = createPart({
-      description: "Rodabase Direita",
-      width: input.width + input.height * 2,
-      height: input.rodabase,
-      material: input.material,
-    });
-
-    parts.push(rodabase);
-  }
 
   return {
     description: "Área Molhada",
@@ -232,7 +221,6 @@ export function AreaMolhada(input: BancadaInput) {
     material: input.material,
     parts,
     frontao,
-    rodabase,
     cost: parts.reduce((acc, curr) => (acc += curr.cost), 0),
     price: parts.reduce((acc, curr) => (acc += curr.price), 0),
   };
@@ -323,7 +311,6 @@ export function Bancada(input: BancadaInput) {
 
   parts.push(engrosso);
   parts.push(engrosso1);
-  parts.push(engrosso1);
 
   if (input.frontao) {
     const frontaoLateral = createPart({
@@ -370,7 +357,76 @@ export function Bancada(input: BancadaInput) {
     material: input.material,
     parts,
     frontao,
-    rodabase,
+    cost: parts.reduce((acc, curr) => (acc += curr.cost), 0),
+    price: parts.reduce((acc, curr) => (acc += curr.price), 0),
+  };
+}
+
+export function LateralSimples(input: BancadaInput) {
+  const parts: Part[] = [];
+  const guarnicaoVertical = createPart({
+    description: "Guarnição Vertical",
+    width: 50,
+    height: input.height,
+    material: input.material,
+  });
+  parts.push(guarnicaoVertical);
+  parts.push(guarnicaoVertical);
+
+  const acbto = createPart({
+    description: "Acabamento",
+    width: input.thickness,
+    height: input.height,
+    material: input.material,
+  });
+  parts.push(acbto);
+  parts.push(acbto);
+
+  const lateral = createPart({
+    description: "Lateral",
+    width: input.width,
+    height: input.height,
+    material: input.material,
+  });
+  parts.push(lateral);
+
+  return {
+    description: "Lateral Simples",
+    width: input.width,
+    height: input.height,
+    thickness: input.thickness,
+    material: input.material,
+    parts,
+    cost: parts.reduce((acc, curr) => (acc += curr.cost), 0),
+    price: parts.reduce((acc, curr) => (acc += curr.price), 0),
+  };
+}
+
+export function LateralDupla(input: BancadaInput) {
+  const parts: Part[] = [];
+
+  const lateral1 = createPart({
+    description: "Lateral1 Principal",
+    width: input.width,
+    height: input.height,
+    material: input.material,
+  });
+  parts.push(lateral1);
+  const lateral2 = createPart({
+    description: "Lateral2 Principal",
+    width: input.width,
+    height: input.height,
+    material: input.material,
+  });
+  parts.push(lateral2);
+
+  return {
+    description: "Lateral Dupla",
+    width: input.width,
+    height: input.height,
+    thickness: input.thickness,
+    material: input.material,
+    parts,
     cost: parts.reduce((acc, curr) => (acc += curr.cost), 0),
     price: parts.reduce((acc, curr) => (acc += curr.price), 0),
   };

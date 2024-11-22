@@ -12,9 +12,11 @@ export default function Home() {
       <h2>O que você encontrará aqui:</h2>
       <ul>
         <li>
-          <strong>Cálculo de Preços de Mármores e Granitos:</strong> Ferramenta
-          oficial da empresa para venda e execução de projetos que tenham
-          bancadas de mármore, granito, etc.
+          <strong>Cálculo de Preços de Mármores e Granitos:</strong>{" "}
+          <p>
+            Ferramenta oficial da empresa para venda e execução de projetos que
+            tenham bancadas de mármore, granito, etc.
+          </p>
         </li>
         <li>
           <strong>Manuais de Execução de Projetos:</strong> Acesse nosso guia
@@ -27,8 +29,9 @@ export default function Home() {
           os procedimentos de montagem.
         </li>
         <li>
-          <strong>Tutoriais e Vídeo Aulas:</strong> Veja e reveja tutoriais passo a passo e vídeo aulas que
-          cobrem uma ampla gama de tópicos relacionados à execução de projetos.
+          <strong>Tutoriais e Vídeo Aulas:</strong> Veja e reveja tutoriais
+          passo a passo e vídeo aulas que cobrem uma ampla gama de tópicos
+          relacionados à execução de projetos.
         </li>
       </ul>
 

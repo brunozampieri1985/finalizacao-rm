@@ -80,11 +80,6 @@ export function AppBar() {
               </Link>
             </Button>
             <Button variant={"outline"} onClick={() => setOpen(false)} asChild>
-              <Link href="/manuais" prefetch={false}>
-                Manuais
-              </Link>
-            </Button>
-            <Button variant={"outline"} onClick={() => setOpen(false)} asChild>
               <Link href="/downloads" prefetch={false}>
                 Downloads
               </Link>
@@ -100,18 +95,13 @@ export function AppBar() {
       </div>
       <nav className="gap-4 hidden lg:flex">
         <Button variant={"outline"} asChild>
-          <Link href="/marmore" prefetch={false}>
+          <Link href="/" prefetch={false}>
             Home
           </Link>
         </Button>
         <Button variant={"outline"} asChild>
           <Link href="/marmore" prefetch={false}>
             Mármores e Granitos
-          </Link>
-        </Button>
-        <Button variant={"outline"} asChild>
-          <Link href="/manuais" prefetch={false}>
-            Manuais
           </Link>
         </Button>
         <Button variant={"outline"} asChild>
