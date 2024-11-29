@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Roboto_Condensed } from "next/font/google";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/providers/theme";
@@ -27,7 +26,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body className={cn(inter.className, " p-2 md:p-0 md:px-48")}>
+      <body
+        className={cn(
+          inter.className,
+          "flex flex-col p-2 md:p-0 md:px-48 min-h-full"
+        )}
+      >
         <Toaster />
         <MarmoreProvider>
           <ThemeProvider attribute="class" defaultTheme="light">

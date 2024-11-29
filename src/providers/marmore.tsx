@@ -8,12 +8,15 @@ type MarmoreContextType = {
   handleAddItem: (product: Omit<Product, "id">) => void;
   handleRemoveItem: (id: number) => void;
   handleClearProject: () => void;
-  showCost: boolean
-  toggleCost: (val: boolean) => void
+  showCost: boolean;
+  toggleCost: (val: boolean) => void;
   total: {
     price: number;
     cost: number;
+    final: number | undefined;
+    discount: number | undefined;
   };
+  defineFinalPrice: (val: number) => void;
 };
 
 export const MarmoreContext = React.createContext({} as MarmoreContextType);
@@ -26,15 +29,25 @@ export function MarmoreProvider({ children }: MarmoreProviderProps) {
   const [items, setItems] = React.useState<Product[]>([]);
   const [id, setId] = React.useState(1);
   const [showCost, setShowCost] = React.useState(false);
-
+  const [finalPrice, setFinalPrice] = React.useState<number>();
 
   function toggleCost(val: boolean) {
-    setShowCost(val)
+    setShowCost(val);
   }
 
+  function defineFinalPrice(val: number) {
+    setFinalPrice(val);
+  }
+
+  const cost = items.reduce((acc, curr) => (acc += curr.cost), 0);
+  const price = items.reduce((acc, curr) => (acc += curr.price), 0);
+  const discount = finalPrice ? 1 - finalPrice / price : undefined;
+  
   const total = {
-    price: items.reduce((acc, curr) => (acc += curr.price), 0),
-    cost: items.reduce((acc, curr) => (acc += curr.cost), 0),
+    price,
+    cost,
+    final: finalPrice,
+    discount,
   };
 
   function handleAddItem(product: Omit<Product, "id">) {
@@ -49,6 +62,7 @@ export function MarmoreProvider({ children }: MarmoreProviderProps) {
 
   function handleClearProject() {
     setItems([]);
+    setFinalPrice(undefined);
     setId(0);
   }
 
@@ -60,8 +74,9 @@ export function MarmoreProvider({ children }: MarmoreProviderProps) {
         handleRemoveItem,
         handleClearProject,
         total,
+        defineFinalPrice,
         showCost,
-        toggleCost
+        toggleCost,
       }}
     >
       {children}

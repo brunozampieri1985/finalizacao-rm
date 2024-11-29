@@ -23,8 +23,9 @@ function getDayAndMonth(date: Date) {
 }
 
 function isWeekEnd(date: Date) {
-  const day = date.getDay();
-  return day === 6 || day === 0;
+  const [day, ..._] = date.toString().split(" ");
+  if (day === "Sat" || day === "Sun") return true;
+  return false;
 }
 
 function isHoliday(date: Date) {
@@ -65,8 +66,25 @@ type GetEndDateInput = {
 };
 
 function getEndDate({ startDate, days }: GetEndDateInput): Date {
+  let total = 0;
+  let d = days;
   let currDate = dayjs(startDate);
-  let d = 0;
+
+  while (d > 0) {
+    total++;
+    currDate = currDate.add(1, "day");
+    const holiday = isHoliday(currDate.toDate());
+    const weekend = isWeekEnd(currDate.toDate());
+    if (!holiday && !weekend) {
+      d = d - 1;
+    }
+  }
+  return dayjs(startDate).add(total, "days").toDate();
+}
+
+/* function getEndDate({ startDate, days }: GetEndDateInput): Date {
+  let currDate = dayjs(startDate);
+  let d = 1;
   while (d < days) {
     const holiday = isHoliday(currDate.toDate());
     const weekend = isWeekEnd(currDate.toDate());
@@ -76,11 +94,11 @@ function getEndDate({ startDate, days }: GetEndDateInput): Date {
     currDate = currDate.add(1, "day");
   }
   return currDate.toDate();
-}
+} */
 
 const WorkDays = {
   getEndDate,
-  getInterval
-}
+  getInterval,
+};
 
-export default WorkDays
+export default WorkDays;

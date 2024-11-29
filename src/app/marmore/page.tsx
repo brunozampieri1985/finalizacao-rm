@@ -40,13 +40,13 @@ export default function Home() {
   };
 
   return (
-    <main className="flex flex-col min-h-full overflow-hidden w-">
+    <main className="flex flex-col min-h-full overflow-hidden w-full p-4">
+      <h2 className="mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold text-center tracking-tight transition-colors first:mt-0">
+        Mármores e Granitos
+      </h2>
       <Separator />
-      <h1 className="text-center text-xl lg:text-2xl p-6 lg:p-10">
-        Cálculo de Preço - Mármore
-      </h1>
       <div className="flex w-full justify-center">
-        <div className="flex flex-col w-full first-line:lg:w-1/2 gap-2 m-4">
+        <div className="flex flex-col w-full first-line:lg:w-1/2 gap-2 my-4">
           <label>Nome do Cliente</label>
           <Input
             onChange={(e) => setNome(e.target.value.toLocaleUpperCase())}
@@ -68,6 +68,7 @@ export default function Home() {
         <CubaEsculpidaForm />
         <CubaForm />
       </div>
+      <Separator className="mt-4"/>
       <Total showCost={showCost} total={total} />
       {items && items.length > 0 && (
         <div className="flex gap-2 w-full justify-end">

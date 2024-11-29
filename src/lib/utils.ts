@@ -19,3 +19,8 @@ export function toMoneyString(val: number) {
     currency: "BRL",
   }).format(val);
 }
+
+export function toDateCorrectFormat(date: Date) {
+  if (!date) return;
+  return date.toLocaleDateString().split("/").reverse().join("-");
+}

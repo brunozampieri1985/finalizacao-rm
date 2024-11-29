@@ -79,6 +79,16 @@ export function AppBar() {
                 Mármores e Granitos
               </Link>
             </Button>
+            <Button variant={"outline"} asChild>
+              <Link href="/dias-uteis" prefetch={false}>
+                Dias Uteis
+              </Link>
+            </Button>
+            <Button variant={"outline"} asChild>
+              <Link href="/aulas" prefetch={false}>
+                Vídeos
+              </Link>
+            </Button>
             <Button variant={"outline"} onClick={() => setOpen(false)} asChild>
               <Link href="/downloads" prefetch={false}>
                 Downloads
@@ -102,6 +112,16 @@ export function AppBar() {
         <Button variant={"outline"} asChild>
           <Link href="/marmore" prefetch={false}>
             Mármores e Granitos
+          </Link>
+        </Button>
+        <Button variant={"outline"} asChild>
+          <Link href="/dias-uteis" prefetch={false}>
+            Dias Uteis
+          </Link>
+        </Button>
+        <Button variant={"outline"} asChild>
+          <Link href="/aulas" prefetch={false}>
+            Vídeos
           </Link>
         </Button>
         <Button variant={"outline"} asChild>

@@ -34,7 +34,9 @@ export function CubaForm() {
   const [open, setOpen] = React.useState(false);
   const [data, setData] = React.useState(initialState);
 
-  const options = Marmore.STOCK.filter((item) => item.type === "Cuba");
+  const options = Marmore.STOCK.filter(
+    (item) => item.type === "Cuba" && item.subtype !== "Esculpida"
+  );
 
   function handleSave() {
     if (data.material === "") {
@@ -56,7 +58,6 @@ export function CubaForm() {
     setData(initialState);
     setOpen(false);
   }
-
 
   function handleSelectChange(val: string) {
     setData((current) => {
@@ -85,7 +86,7 @@ export function CubaForm() {
             }
           }}
         >
-          <div>          
+          <div>
             <Select onValueChange={handleSelectChange}>
               <SelectTrigger>
                 <SelectValue placeholder="Selecione uma cuba" />
@@ -101,7 +102,7 @@ export function CubaForm() {
                 </SelectGroup>
               </SelectContent>
             </Select>
-          </div>         
+          </div>
           <div className="flex w-full">
             <Button type="button" onClick={handleSave} className="w-full">
               Adicionar
