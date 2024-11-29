@@ -26,7 +26,7 @@ import Marmore from "@/lib/features/marmore";
 import { toMoneyString } from "@/lib/utils";
 import { OPTIONS } from "@/lib/features/marmore/options";
 
-export function LateralDuplaForm() {
+export function CubaEsculpidaForm() {
   const initialState = {
     width: 0,
     height: 0,
@@ -74,14 +74,14 @@ export function LateralDuplaForm() {
       data.thickness = 40;
     }
 
-    const lateralDupla = Marmore.LateralDupla({
+    const cubaEsculpida = Marmore.CubaEsculpida({
       height: data.height,
       width: data.width,
       thickness: data.thickness,
       material: data.material,
     });
 
-    handleAddItem(lateralDupla);
+    handleAddItem(cubaEsculpida);
 
     setData(initialState);
     setOpen(false);
@@ -109,13 +109,13 @@ export function LateralDuplaForm() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button onClick={() => setOpen(true)}>+ Lateral Dupla</Button>
+        <Button onClick={() => setOpen(true)}>+ Cuba Esculpida</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Lateral Dupla</DialogTitle>
+          <DialogTitle>Cuba Esculpida</DialogTitle>
           <DialogDescription>
-            Adicionar Lateral Dupla ao projeto.
+            Adicionar Cuba Esculpida ao projeto.
           </DialogDescription>
         </DialogHeader>
         <form
@@ -156,7 +156,7 @@ export function LateralDuplaForm() {
               />
             </div>
             <div className="flex flex-col w-full">
-              <label>Profundidade</label>
+              <label>Altura</label>
               <Input
                 onChange={handleChange}
                 value={data.height > 0 ? data.height : ""}
@@ -167,7 +167,7 @@ export function LateralDuplaForm() {
           </div>
           <div className="flex w-full">
             <div className="flex flex-col w-full">
-              <label>Saia (Espessura)</label>
+              <label>Profundidade</label>
               <Input
                 onChange={handleChange}
                 value={data.thickness > 0 ? data.thickness : ""}

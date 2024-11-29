@@ -1,27 +1,15 @@
 "use client";
 
-import { Part } from "@/lib/features/calculo-marmore";
+import { Product } from "@/lib/features/marmore/product";
 import * as React from "react";
-
-type Product = {
-  id?: number;
-  description: string;
-  width: number;
-  height: number;
-  thickness?: number;
-  material: string;
-  parts: Part[];
-  cost: number;
-  price: number;
-  frontao?: number;
-  rodabase?: number;
-};
 
 type MarmoreContextType = {
   items: Product[];
   handleAddItem: (product: Omit<Product, "id">) => void;
   handleRemoveItem: (id: number) => void;
   handleClearProject: () => void;
+  showCost: boolean
+  toggleCost: (val: boolean) => void
   total: {
     price: number;
     cost: number;
@@ -36,6 +24,13 @@ type MarmoreProviderProps = {
 
 export function MarmoreProvider({ children }: MarmoreProviderProps) {
   const [items, setItems] = React.useState<Product[]>([]);
+  const [id, setId] = React.useState(1);
+  const [showCost, setShowCost] = React.useState(false);
+
+
+  function toggleCost(val: boolean) {
+    setShowCost(val)
+  }
 
   const total = {
     price: items.reduce((acc, curr) => (acc += curr.price), 0),
@@ -43,21 +38,31 @@ export function MarmoreProvider({ children }: MarmoreProviderProps) {
   };
 
   function handleAddItem(product: Omit<Product, "id">) {
-    setItems((curr) => [...curr, { ...product, id: curr.length + 1 }]);
+    setId((id) => id + 1);
+    setItems((curr) => [...curr, { ...product, id }]);
   }
 
-  function handleRemoveItem(id: number) {
-    const filter = items.filter((item) => item.id !== id);
+  function handleRemoveItem(idr: number) {
+    const filter = items.filter((item) => item.id !== idr);
     setItems(filter);
   }
 
   function handleClearProject() {
     setItems([]);
+    setId(0);
   }
 
   return (
     <MarmoreContext.Provider
-      value={{ items, handleAddItem, handleRemoveItem, handleClearProject, total }}
+      value={{
+        items,
+        handleAddItem,
+        handleRemoveItem,
+        handleClearProject,
+        total,
+        showCost,
+        toggleCost
+      }}
     >
       {children}
     </MarmoreContext.Provider>

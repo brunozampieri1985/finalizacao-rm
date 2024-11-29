@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Roboto_Condensed } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/providers/theme";
 import { cn } from "@/lib/utils";
@@ -8,7 +9,10 @@ import { AppBar } from "@/components/shared/appbar";
 import { Separator } from "@/components/ui/separator";
 import { Toaster } from "@/components/ui/toaster";
 
-const robRoboto_Condensed = Roboto_Condensed({ subsets: ["latin"] });
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "R&M Planejados - Central de Projetos",
@@ -23,16 +27,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body
-        className={cn(robRoboto_Condensed.className, " p-2 md:p-0 md:px-48")}
-      >
+      <body className={cn(inter.className, " p-2 md:p-0 md:px-48")}>
         <Toaster />
         <MarmoreProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="light"
-            disableTransitionOnChange
-          >
+          <ThemeProvider attribute="class" defaultTheme="light">
             <AppBar />
             <Separator />
             {children}

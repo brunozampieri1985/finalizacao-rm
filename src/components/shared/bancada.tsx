@@ -20,39 +20,43 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useMarmore } from "@/providers/marmore";
-import { Bancada, getMaterialOptions } from "@/lib/features/calculo-marmore";
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "../ui/toast";
+import Marmore from "@/lib/features/marmore";
+import { toMoneyString } from "@/lib/utils";
+import { OPTIONS } from "@/lib/features/marmore/options";
 
 export function BancadaForm() {
-  const { handleAddItem } = useMarmore();
-  const { toast } = useToast()
-  const [open, setOpen] = React.useState(false);
-  const [data, setData] = React.useState({
+  const initialState = {
     width: 0,
     height: 0,
     thickness: 0,
-    frontao: 0,
+    backsplashWidth: 0,
+    backsplashHeight: 0,
     material: "",
-  });
+  };
+  const { handleAddItem } = useMarmore();
+  const { toast } = useToast();
+  const [open, setOpen] = React.useState(false);
+  const [data, setData] = React.useState(initialState);
 
-  const options = getMaterialOptions();
+  const options = Marmore.STOCK.filter((item) => item.type === "Pedra");
 
   function handleSave() {
-    if (data.height === 0) {
-      toast({
-        variant: "destructive",
-        title: "Atenção!",
-        description: "Favor informar a profundidade",
-        action: <ToastAction altText="OK">OK</ToastAction>,
-      });
-      return;
-    }
     if (data.material === "") {
       toast({
         variant: "destructive",
         title: "Atenção!",
         description: "Favor informar o material",
+        action: <ToastAction altText="OK">OK</ToastAction>,
+      });
+      return;
+    }
+    if (data.height === 0) {
+      toast({
+        variant: "destructive",
+        title: "Atenção!",
+        description: "Favor informar a profundidade",
         action: <ToastAction altText="OK">OK</ToastAction>,
       });
       return;
@@ -66,23 +70,22 @@ export function BancadaForm() {
       });
       return;
     }
-    const bancada = Bancada({
+    if (data.thickness === 0) {
+      data.thickness = 40;
+    }
+
+    const bancada = Marmore.Bancada({
       height: data.height,
       width: data.width,
       thickness: data.thickness,
       material: data.material,
-      frontao: data.frontao,
+      backsplashHeight: data.backsplashHeight,
+      backsplashWidth: data.backsplashWidth,
     });
 
     handleAddItem(bancada);
 
-    setData({
-      width: 0,
-      height: 0,
-      thickness: 0,
-      frontao: 0,
-      material: "",
-    });
+    setData(initialState);
     setOpen(false);
   }
 
@@ -113,7 +116,7 @@ export function BancadaForm() {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Bancada</DialogTitle>
-          <DialogDescription>Adicionar Bancada ao projeto.</DialogDescription>
+          <DialogDescription>Adicionar bancada ao projeto.</DialogDescription>
         </DialogHeader>
         <form
           className="space-y-8 p-8 w-full"
@@ -133,63 +136,71 @@ export function BancadaForm() {
               <SelectContent>
                 <SelectGroup>
                   {options.map((product, key) => (
-                    <SelectItem value={product} key={key}>
-                      {product}
+                    <SelectItem value={product.description} key={key}>
+                      {product.description} |{" "}
+                      {toMoneyString(product.cost * OPTIONS.markup)}/m²
                     </SelectItem>
                   ))}
                 </SelectGroup>
               </SelectContent>
             </Select>
           </div>
-          <div className="flex">
-            <div>
+          <div className="flex gap-2">
+            <div className="flex flex-col w-full">
               <label>Largura</label>
               <Input
                 onChange={handleChange}
-                value={data.width > 0 ? data.width : undefined}
+                value={data.width > 0 ? data.width : ""}
                 name="width"
                 type="number"
-                placeholder="Digite a largura..."
               />
             </div>
-            <div>
+            <div className="flex flex-col w-full">
               <label>Profundidade</label>
               <Input
                 onChange={handleChange}
-                value={data.height > 0 ? data.height : undefined}
+                value={data.height > 0 ? data.height : ""}
                 name="height"
                 type="number"
-                placeholder="Digite a profundidade..."
               />
             </div>
           </div>
-          <div className="flex">
-            <div>
+          <div className="flex w-full">
+            <div className="flex flex-col w-full">
               <label>Saia (Espessura)</label>
               <Input
                 onChange={handleChange}
-                value={data.thickness > 0 ? data.thickness : undefined}
+                value={data.thickness > 0 ? data.thickness : ""}
                 name="thickness"
                 type="number"
-                placeholder="Digite a altura da saia..."
-              />
-            </div>
-
-            <div>
-              <label>Frontão</label>
-              <Input
-                onChange={handleChange}
-                value={data.frontao > 0 ? data.frontao : undefined}
-                name="frontao"
-                type="number"
-                placeholder="Digite a altura do frontão..."
               />
             </div>
           </div>
-
-          <Button type="button" onClick={handleSave}>
-            Adicionar
-          </Button>
+          <div className="flex w-full gap-2">
+            <div className="flex flex-col w-full">
+              <label>Altura Frontão</label>
+              <Input
+                onChange={handleChange}
+                value={data.backsplashHeight > 0 ? data.backsplashHeight : ""}
+                name="backsplashHeight"
+                type="number"
+              />
+            </div>
+            <div className="flex flex-col w-full">
+              <label>Largura Frontão</label>
+              <Input
+                onChange={handleChange}
+                value={data.backsplashWidth > 0 ? data.backsplashWidth : ""}
+                name="backsplashWidth"
+                type="number"
+              />
+            </div>
+          </div>
+          <div className="flex w-full">
+            <Button type="button" onClick={handleSave} className="w-full">
+              Adicionar
+            </Button>
+          </div>
         </form>
       </DialogContent>
     </Dialog>

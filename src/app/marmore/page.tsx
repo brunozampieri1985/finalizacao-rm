@@ -4,95 +4,24 @@ import * as React from "react";
 import { AreaMolhadaForm } from "@/components/shared/area-molhada";
 import ReactDOMServer from "react-dom/server";
 import { Separator } from "@/components/ui/separator";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-} from "@/components/ui/card";
-import { RodabaseForm } from "@/components/shared/rodabase";
 import { useMarmore } from "@/providers/marmore";
-import { FrontaoForm } from "@/components/shared/frontao";
 import { Button } from "@/components/ui/button";
-import { BancadaForm } from "@/components/shared/bancada";
-import { toMoneyString } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
+import { BancadaForm } from "@/components/shared/bancada";
 import { LateralSimplesForm } from "@/components/shared/lateral-simples";
 import { LateralDuplaForm } from "@/components/shared/lateral-dupla";
+import { FrontaoForm } from "@/components/shared/frontao";
+import { RodabaseForm } from "@/components/shared/rodabase";
+import { CubaEsculpidaForm } from "@/components/shared/cuba-esculpida";
+import { CubaForm } from "@/components/shared/cuba";
+import { Total } from "@/components/shared/product-total";
+import { ProductList } from "@/components/shared/product-list";
 
 export default function Home() {
   const [nome, setNome] = React.useState("");
-  const [showCost, setShowCost] = React.useState(false);
-  const { items, total, handleRemoveItem, handleClearProject } = useMarmore();
-
-  function Total() {
-    return (
-      <div className="p-4 file:w-full justify-items-end text-right my-4 font-semibold">
-        Total: {showCost && <>{toMoneyString(total.cost)}|</>}{" "}
-        {toMoneyString(total.price)}
-      </div>
-    );
-  }
-
-  function Items({ showDeleteButton }: { showDeleteButton: boolean }) {
-    return (
-      <Card>
-        <CardHeader>
-          <CardDescription>Itens no Projeto</CardDescription>
-        </CardHeader>
-        <CardContent className="gap-2">
-          {!items || items.length < 1 ? (
-            <p className="text-xs p-0 m-0">Não há itens no projeto.</p>
-          ) : (
-            <div>
-              {items.map((item) => {
-                const [material, ..._] = item.material.split("|");
-                return (
-                  <Card key={item.id} className="p-2">
-                    <div className="flex justify-between text-sm">
-                      <div>
-                        {item.id} - {item.description} | {material.trimEnd()} |{" "}
-                        {item.width} x {item.height}{" "}
-                        {item.thickness && item.thickness > 0 && (
-                          <> x {item.thickness}</>
-                        )}
-                        mm{" "}
-                        <div className="text-xs">
-                          {item.frontao && (
-                            <>
-                              <span>Altura Frontão: {item.frontao}mm</span>
-                            </>
-                          )}
-                          {item.frontao && item.rodabase ? <> - </> : ""}
-                          {item.rodabase && (
-                            <span>Altura Rodabase: {item.rodabase}mm</span>
-                          )}
-                        </div>
-                      </div>
-                      <span className="flex gap-4 items-center relative">
-                        {showCost && <>{toMoneyString(item.cost)}|</>}{" "}
-                        {toMoneyString(item.price)}
-                        {showDeleteButton && (
-                          <Button
-                            variant={"destructive"}
-                            className="w-4 h-4 text-xs absolute top-0 right-0 md:relative md:w-6 md:h-6"
-                            onClick={() => handleRemoveItem(item.id!)}
-                          >
-                            X
-                          </Button>
-                        )}
-                      </span>
-                    </div>
-                  </Card>
-                );
-              })}
-            </div>
-          )}
-        </CardContent>
-      </Card>
-    );
-  }
+  const { items, total, handleClearProject, showCost, toggleCost } =
+    useMarmore();
 
   const handlePrint = async () => {
     const html2pdf = (await import("html2pdf.js")).default;
@@ -100,8 +29,10 @@ export default function Home() {
       ReactDOMServer.renderToString(
         <p className="p-8">Nome do Cliente: {nome}</p>
       ) +
-      ReactDOMServer.renderToString(Items({ showDeleteButton: false })) +
-      ReactDOMServer.renderToString(Total());
+      ReactDOMServer.renderToString(
+        ProductList({ products: items, showCost, showDeleteButton: false })
+      ) +
+      ReactDOMServer.renderToString(Total({ showCost, total }));
     html2pdf()
       .set()
       .from(printContent)
@@ -126,27 +57,24 @@ export default function Home() {
           />
         </div>
       </div>
-      <Items showDeleteButton />
+      <ProductList products={items} showDeleteButton showCost={showCost} />
       <div className="flex flex-wrap justify-center gap-4 p-4 bg-slate-100 items-center rounded-md">
         <AreaMolhadaForm />
         <BancadaForm />
-        <FrontaoForm />
-        <RodabaseForm />
         <LateralSimplesForm />
         <LateralDuplaForm />
-        {items.length > 0 && (
-          <Button variant={"destructive"} onClick={handleClearProject}>
-            Limpar
-          </Button>
-        )}
+        <FrontaoForm />
+        <RodabaseForm />
+        <CubaEsculpidaForm />
+        <CubaForm />
       </div>
-      <Total />
+      <Total showCost={showCost} total={total} />
       {items && items.length > 0 && (
-        <div className="w-full items-end text-right my-4 font-semibold">
+        <div className="flex gap-2 w-full justify-end">
           <div className="flex items-center space-x-2">
             <Checkbox
               id="show-cost"
-              onCheckedChange={(e) => setShowCost(e as boolean)}
+              onCheckedChange={(e) => toggleCost(e as boolean)}
             />
             <label
               htmlFor="show-cost"
@@ -155,6 +83,11 @@ export default function Home() {
               Mostrar custos
             </label>
           </div>
+          {items.length > 0 && (
+            <Button variant={"destructive"} onClick={handleClearProject}>
+              Limpar
+            </Button>
+          )}
           <Button variant={"rm"} onClick={handlePrint}>
             Imprimir PDF
           </Button>

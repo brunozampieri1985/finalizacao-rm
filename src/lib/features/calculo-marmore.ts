@@ -1,4 +1,4 @@
-import { Options } from "../options";
+/* import { Options } from "../options";
 import { getArea, roundMoney, toMoneyString } from "../utils";
 
 export type StockType = {
@@ -83,6 +83,11 @@ export const PRODUCTS: Omit<StockType, "price">[] = [
     id: 15,
     material: "Marmore Branco Polar",
     cost: 530, // cost per square meter
+  },
+  {
+    id: 16,
+    material: "Cuba TECNOCUBA N17",
+    cost: 290, // cost per piece
   },
 ];
 
@@ -268,7 +273,6 @@ export function Rodabase(input: BaseInput) {
 
 export function Bancada(input: BancadaInput) {
   const frontao = input.frontao;
-  const rodabase = input.rodabase;
   const parts: Part[] = [];
 
   const tampo = createPart({
@@ -329,24 +333,6 @@ export function Bancada(input: BancadaInput) {
     parts.push(frontaoLateral);
     parts.push(frontaoLateral);
     parts.push(frontao);
-  }
-  if (input.rodabase) {
-    const rodabaseLateral = createPart({
-      description: "Rodabase Esquerda",
-      width: input.height + Options.Thickness,
-      height: input.rodabase,
-      material: input.material,
-    });
-
-    const rodabase = createPart({
-      description: "Rodabase Direita",
-      width: input.width + Options.Thickness,
-      height: input.rodabase,
-      material: input.material,
-    });
-    parts.push(rodabaseLateral);
-    parts.push(rodabaseLateral);
-    parts.push(rodabase);
   }
 
   return {
@@ -431,3 +417,10 @@ export function LateralDupla(input: BancadaInput) {
     price: parts.reduce((acc, curr) => (acc += curr.price), 0),
   };
 }
+
+
+export function Cuba(material: string) {
+  const product = Stock.getByMaterial(material);
+  if (!product) throw new Error("Produto não encontrado!");
+
+} */
