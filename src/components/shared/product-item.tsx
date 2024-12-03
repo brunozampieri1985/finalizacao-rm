@@ -23,7 +23,7 @@ export function ProductItem({
   const frontao = hasBacksplash(product.parts);
   return (
     <Card key={product.id} className="p-2">
-      <div className="flex justify-between text-sm">
+      <div className="flex flex-col md:flex-row justify-between text-sm">
         <div>
           {product.id} - {product.description} | {material.trimEnd()} |{" "}
           {product.width} x {product.height}{" "}
