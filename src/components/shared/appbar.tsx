@@ -5,14 +5,9 @@ import { Button } from "../ui/button";
 import * as React from "react";
 import Link from "next/link";
 import { Sheet, SheetTrigger, SheetContent } from "../ui/sheet";
+import { Logo } from "./logo";
 
-function Logo() {
-  return (
-    <div className="flex">
-      <Image src="/logo-light.jpg" alt="Logo" width={88} height={24}></Image>
-    </div>
-  );
-}
+
 function MenuIcon(props: { className: string; onClick: () => void }) {
   return (
     <svg

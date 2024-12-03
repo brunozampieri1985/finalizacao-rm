@@ -17,22 +17,41 @@ import { CubaEsculpidaForm } from "@/components/shared/cuba-esculpida";
 import { CubaForm } from "@/components/shared/cuba";
 import { Total } from "@/components/shared/product-total";
 import { ProductList } from "@/components/shared/product-list";
+import { toMoneyString } from "@/lib/utils";
+import { Logo } from "@/components/shared/logo";
 
 export default function Home() {
   const [nome, setNome] = React.useState("");
   const { items, total, handleClearProject, showCost, toggleCost } =
     useMarmore();
 
+  const TotalPDF = () => (
+    <div className="flex flex-col gap-2 text-right p-4">
+      <p>Total: {toMoneyString(total.price)}</p>
+      {total.discount && total.discount > 0 && (
+        <p>Desconto: {(total.discount * 100).toFixed(2)} %</p>
+      )}
+      <p>Total Final: {toMoneyString(total.final || total.price)}</p>
+    </div>
+  );
+
   const handlePrint = async () => {
     const html2pdf = (await import("html2pdf.js")).default;
+    const printLogo = ReactDOMServer.renderToString(Logo({ className: "p-8" }));
+    const printClientName = ReactDOMServer.renderToString(
+      <p className="p-8">Nome do Cliente: {nome}</p>
+    );
+    const printProductList = ReactDOMServer.renderToString(
+      ProductList({
+        products: items,
+        showCost,
+        showDeleteButton: false,
+      })
+    );
+    const printTotal = ReactDOMServer.renderToString(TotalPDF());
     const printContent =
-      ReactDOMServer.renderToString(
-        <p className="p-8">Nome do Cliente: {nome}</p>
-      ) +
-      ReactDOMServer.renderToString(
-        ProductList({ products: items, showCost, showDeleteButton: false })
-      ) +
-      ReactDOMServer.renderToString(Total({ showCost, total }));
+      printLogo + printClientName + printProductList + printTotal;
+
     html2pdf()
       .set()
       .from(printContent)
@@ -68,7 +87,7 @@ export default function Home() {
         <CubaEsculpidaForm />
         <CubaForm />
       </div>
-      <Separator className="mt-4"/>
+      <Separator className="mt-4" />
       <Total showCost={showCost} total={total} />
       {items && items.length > 0 && (
         <div className="flex gap-2 w-full justify-end">
@@ -84,11 +103,11 @@ export default function Home() {
               Mostrar custos
             </label>
           </div>
-          {items.length > 0 && (
-            <Button variant={"destructive"} onClick={handleClearProject}>
-              Limpar
-            </Button>
-          )}
+
+          <Button variant={"destructive"} onClick={handleClearProject}>
+            Limpar
+          </Button>
+
           <Button variant={"rm"} onClick={handlePrint}>
             Imprimir PDF
           </Button>

@@ -1,3 +1,5 @@
+"use client"
+
 import { toMoneyString } from "@/lib/utils";
 import { Input } from "../ui/input";
 import { useMarmore } from "@/providers/marmore";

@@ -34,8 +34,8 @@ export default function DiasUteisPage() {
         Calculadora Dias Úteis
       </h2>
       <Separator />
-      <div className="flex flex-col w-1/4">
-        <div className="flex flex-col first-line:lg:w-1/2 gap-2 my-4">
+      <div className="flex flex-col md:w-1/4">
+        <div className="flex flex-col first-line: lg:w-1/2 gap-2 my-4">
           <label>Data Inicial</label>
           <Input
             onChange={handleChangeDataInicial}
@@ -44,7 +44,7 @@ export default function DiasUteisPage() {
             type="date"
           />
         </div>
-        <div className="flex flex-col first-line:lg:w-1/2 gap-2 my-4">
+        <div className="flex flex-col first-line: lg:w-1/2 gap-2 my-4">
           <label>Dias úteis</label>
           <Input
             onChange={handleChangeDays}
@@ -53,7 +53,7 @@ export default function DiasUteisPage() {
             type="number"
           />
         </div>
-        <div className="flex flex-col first-line:lg:w-1/2 gap-2 my-4">
+        <div className="flex flex-col first-line: lg:w-1/2 gap-2 my-4">
           <label>Data Final</label>
           <Input
             value={toDateCorrectFormat(endDate!)}
