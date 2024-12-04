@@ -24,3 +24,8 @@ export function toDateCorrectFormat(date: Date) {
   if (!date) return;
   return date.toLocaleDateString().split("/").reverse().join("-");
 }
+
+export function camelCase(str: string) {
+  const [first, ...rest] = str.split("");
+  return first.toUpperCase() + rest.join("");
+}
