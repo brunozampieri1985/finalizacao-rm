@@ -1,4 +1,3 @@
-import { AreaMolhada } from "./use-cases/area-molhada";
 import { Bancada } from "./use-cases/bancada";
 import { CubaEsculpida } from "./use-cases/cuba-esculpida";
 import { Cuba } from "./use-cases/cuba";
@@ -9,7 +8,6 @@ import { LateralDupla } from "./use-cases/lateral-dupla";
 import { MATERIALS as STOCK } from "./material";
 
 const Marmore = {
-  AreaMolhada,
   Bancada,
   Cuba,
   CubaEsculpida,
