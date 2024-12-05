@@ -29,14 +29,10 @@ export function CubaForm() {
   const initialState = {
     material: "",
   };
-  const { handleAddItem } = useMarmore();
+  const { handleAddItem, cubas } = useMarmore();
   const { toast } = useToast();
   const [open, setOpen] = React.useState(false);
   const [data, setData] = React.useState(initialState);
-
-  const options = Marmore.STOCK.filter(
-    (item) => item.type === "Cuba" && item.subtype !== "Esculpida"
-  );
 
   function handleSave() {
     if (data.material === "") {
@@ -93,7 +89,7 @@ export function CubaForm() {
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  {options.map((product, key) => (
+                  {cubas.map((product, key) => (
                     <SelectItem value={product.description} key={key}>
                       {product.description} |{" "}
                       {toMoneyString(product.cost * OPTIONS.markup)}/peça

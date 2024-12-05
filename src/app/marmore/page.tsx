@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { AreaMolhadaForm } from "@/components/shared/area-molhada";
 import ReactDOMServer from "react-dom/server";
 import { Separator } from "@/components/ui/separator";
 import { useMarmore } from "@/providers/marmore";
@@ -19,6 +18,7 @@ import { Total } from "@/components/shared/product-total";
 import { ProductList } from "@/components/shared/product-list";
 import { toMoneyString } from "@/lib/utils";
 import { Logo } from "@/components/shared/logo";
+import { toast } from "@/hooks/use-toast";
 
 export default function Home() {
   const [nome, setNome] = React.useState("");
@@ -36,6 +36,15 @@ export default function Home() {
   );
 
   const handlePrint = async () => {
+    if (!nome || nome === "") {
+      toast({
+        title: "Atenção!",
+        description: "Digite o nome do cliente para imprimir.",
+        variant: "destructive",
+        duration: 2000
+      });
+      return
+    }
     const html2pdf = (await import("html2pdf.js")).default;
     const printLogo = ReactDOMServer.renderToString(Logo({ className: "p-8" }));
     const printClientName = ReactDOMServer.renderToString(
@@ -78,7 +87,6 @@ export default function Home() {
       </div>
       <ProductList products={items} showDeleteButton showCost={showCost} />
       <div className="flex flex-wrap justify-center gap-4 p-4 bg-slate-100 items-center rounded-md">
-        <AreaMolhadaForm />
         <BancadaForm />
         <LateralSimplesForm />
         <LateralDuplaForm />

@@ -1,5 +1,7 @@
 "use client";
 
+import Marmore from "@/lib/features/marmore";
+import { Material } from "@/lib/features/marmore/material";
 import { Product } from "@/lib/features/marmore/product";
 import * as React from "react";
 
@@ -17,6 +19,9 @@ type MarmoreContextType = {
     discount: number | undefined;
   };
   defineFinalPrice: (val: number) => void;
+  getItemById: (id: number) => Product | undefined
+  cubas: Material[],
+  granitos: Material[]
 };
 
 export const MarmoreContext = React.createContext({} as MarmoreContextType);
@@ -50,6 +55,12 @@ export function MarmoreProvider({ children }: MarmoreProviderProps) {
     discount,
   };
 
+  const granitos = Marmore.STOCK.filter((item) => item.type === "Pedra");
+  const cubas = Marmore.STOCK.filter(
+    (item) => item.type === "Cuba" && item.subtype !== "Esculpida"
+  );
+
+
   function handleAddItem(product: Omit<Product, "id">) {
     setId((id) => id + 1);
     setItems((curr) => [...curr, { ...product, id }]);
@@ -66,6 +77,10 @@ export function MarmoreProvider({ children }: MarmoreProviderProps) {
     setId(0);
   }
 
+  function getItemById(id: number) {
+    return items.find((item) => item.id === id)
+  }
+
   return (
     <MarmoreContext.Provider
       value={{
@@ -77,6 +92,9 @@ export function MarmoreProvider({ children }: MarmoreProviderProps) {
         defineFinalPrice,
         showCost,
         toggleCost,
+        getItemById,
+        cubas,
+        granitos
       }}
     >
       {children}

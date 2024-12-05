@@ -35,12 +35,11 @@ export function CubaEsculpidaForm() {
     backsplashHeight: 0,
     material: "",
   };
-  const { handleAddItem } = useMarmore();
+  const { handleAddItem, granitos } = useMarmore();
   const { toast } = useToast();
   const [open, setOpen] = React.useState(false);
   const [data, setData] = React.useState(initialState);
 
-  const options = Marmore.STOCK.filter((item) => item.type === "Pedra");
 
   function handleSave() {
     if (data.material === "") {
@@ -135,7 +134,7 @@ export function CubaEsculpidaForm() {
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  {options.map((product, key) => (
+                  {granitos.map((product, key) => (
                     <SelectItem value={product.description} key={key}>
                       {product.description} |{" "}
                       {toMoneyString(product.cost * OPTIONS.markup)}/m²
