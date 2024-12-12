@@ -150,6 +150,17 @@ export const MATERIALS: Material[] = [
     thickness: 200,
   },
   {
+    id: "09536f6f-441a-40d6-ac3e-23a8b78g26ec",
+    cost: 191.31,
+    costType: "pc",
+    description: "Cuba Nº 2 56x34x17 Aço Inox 430 Tecnocuba",
+    type: "Cuba",
+    subtype: "Embutir",
+    width: 560,
+    height: 340,
+    thickness: 170,
+  },
+  {
     id: "26ab9dec-6ea0-49b9-adae-33a63a8549dd",
     cost: 700,
     costType: "pc",
