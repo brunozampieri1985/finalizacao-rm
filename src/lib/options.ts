@@ -1,7 +1,7 @@
 
 
 export const Options = {
-    Markup: 1.3,
+    Markup: 1.45,
     Thickness: 40,
-    Engrosso: 60
+    Engrosso: 70
 }
