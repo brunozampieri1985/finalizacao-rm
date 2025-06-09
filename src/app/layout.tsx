@@ -14,9 +14,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "R&M Planejados - Central de Projetos",
+  title: "Not found",
   description:
-    "Central de Projetos para rápida consulta e utilização dos funcionários da R&M Planejados.",
+    "Not found",
 };
 
 export default function RootLayout({
