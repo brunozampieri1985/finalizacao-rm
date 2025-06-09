@@ -34,8 +34,8 @@ export default function RootLayout({
       >
         <Toaster />
         <MarmoreProvider>
-          <ThemeProvider attribute="class" defaultTheme="light">
-            
+          <ThemeProvider attribute="class" defaultTheme="light">        
+            <AppBar />    
             <Separator />
             {children}
           </ThemeProvider>
